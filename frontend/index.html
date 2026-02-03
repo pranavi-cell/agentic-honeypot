@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="style.css"></head>
+<body>
+    <h2>Scam Guard Agent</h2>
+    <textarea id="msgInput" placeholder="Paste suspicious message here..."></textarea>
+    <button onclick="checkScam()">Analyze Message</button>
+    <div id="result"></div>
+
+    <script>
+        async function checkScam() {
+            const msg = document.getElementById('msgInput').value;
+            // This calls your Public API
+            const response = await fetch('http://localhost:8080/api/analyze', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-API-KEY': 'YOUR_SECRET_KEY'},
+                body: JSON.stringify({ message: msg })
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = data.is_scam ? 
+                "WARNING: Scam Detected! Agent deployed." : "Message seems safe.";
+        }
+    </script>
+</body>
+</html>
